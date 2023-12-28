@@ -25,6 +25,7 @@ const CanMsg TESLA_TX_MSGS[] = {
   {0x45, 0, 8},   // STW_ACTN_RQ
   {0x45, 2, 8},   // STW_ACTN_RQ
   {0x2b9, 0, 8},  // DAS_control
+  {0x27d, 0, 3},  // APS_eacMonitor
 };
 
 const CanMsg TESLA_PT_TX_MSGS[] = {
@@ -192,6 +193,10 @@ static int tesla_fwd_hook(int bus_num, int addr) {
     }
 
     if (tesla_longitudinal && (addr == das_control_addr) && !tesla_stock_aeb) {
+      block_msg = true;
+    }
+
+    if (!tesla_powertrain && (addr == 0x27d)) {
       block_msg = true;
     }
 
